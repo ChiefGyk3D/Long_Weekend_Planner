@@ -47,7 +47,12 @@ def check_holiday_weekends(year_start, year_end, nonstandard):
                 holiday_data[year].append((holiday_name, date.strftime("%B %d"), 'You can take off Friday, ' + off_day.strftime("%B %d") + ', for a four-day weekend.'))
 
         for holiday_name, month, rule in floating_holidays:
-            date = datetime.date(year, month, 1) + relativedelta(weekday=rule)
+            if rule.n < 0:  # for last Monday, Tuesday, etc. of the month
+                # start from the last day of the month
+                date = datetime.date(year, month, 1) + relativedelta(day=31, weekday=rule)
+            else:  # for first, second, third, etc. Monday, Tuesday, etc. of the month
+                # start from the first day of the month
+                date = datetime.date(year, month, 1) + relativedelta(weekday=rule)
             holiday_data[year].append((holiday_name, date.strftime("%B %d"), 'You have a three-day weekend.'))
 
     # Print holiday data

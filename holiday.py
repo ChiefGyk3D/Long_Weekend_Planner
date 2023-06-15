@@ -47,13 +47,20 @@ def check_holiday_weekends(year_start, year_end, nonstandard):
                 holiday_data[year].append((holiday_name, date.strftime("%B %d"), 'You can take off Friday, ' + off_day.strftime("%B %d") + ', for a four-day weekend.'))
 
         for holiday_name, month, rule in floating_holidays:
-            if rule.n < 0:  # for last Monday, Tuesday, etc. of the month
-                # start from the last day of the month
+            if rule.n < 0:
                 date = datetime.date(year, month, 1) + relativedelta(day=31, weekday=rule)
-            else:  # for first, second, third, etc. Monday, Tuesday, etc. of the month
-                # start from the first day of the month
+            else:
                 date = datetime.date(year, month, 1) + relativedelta(weekday=rule)
             holiday_data[year].append((holiday_name, date.strftime("%B %d"), 'You have a three-day weekend.'))
+
+        # Check for the Thanksgiving four-day weekend
+        thanksgiving = next((h for h in holiday_data[year] if h[0] == "Thanksgiving"), None)
+        day_after_thanksgiving = next((h for h in holiday_data[year] if h[0] == "Day After Thanksgiving"), None)
+        if thanksgiving and day_after_thanksgiving:
+            idx_thanksgiving = holiday_data[year].index(thanksgiving)
+            idx_day_after = holiday_data[year].index(day_after_thanksgiving)
+            holiday_data[year][idx_thanksgiving] = (thanksgiving[0], thanksgiving[1], 'You have a four-day weekend.')
+            holiday_data[year][idx_day_after] = (day_after_thanksgiving[0], day_after_thanksgiving[1], 'This is part of the four-day Thanksgiving weekend.')
 
     # Print holiday data
     for year, data in holiday_data.items():

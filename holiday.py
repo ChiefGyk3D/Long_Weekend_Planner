@@ -1,21 +1,34 @@
+import argparse
 import datetime
-from dateutil.relativedelta import relativedelta, MO, TH
+from dateutil.relativedelta import relativedelta, MO, TH, FR
 
-# Define fixed date holidays
-fixed_holidays = [("New Year's Day", 1, 1),  # New Year's Day
-                  ("Independence Day", 7, 4),  # Independence Day
-                  ("Veterans Day", 11, 11),  # Veterans Day
-                  ("Christmas Day", 12, 25)]  # Christmas Day
+# Define standard fixed and floating date holidays
+standard_fixed_holidays = [("New Year's Day", 1, 1),  # New Year's Day
+                           ("Independence Day", 7, 4),  # Independence Day
+                           ("Veterans Day", 11, 11),  # Veterans Day
+                           ("Christmas Day", 12, 25)]  # Christmas Day
 
-# Define floating holidays
-floating_holidays = [("Martin Luther King Jr. Day", 1, MO(3)),
-                     ("Presidents' Day", 2, MO(3)),
-                     ("Memorial Day", 5, MO(-1)),
-                     ("Labor Day", 9, MO(1)),
-                     ("Thanksgiving", 11, TH(4))]
+standard_floating_holidays = [("Martin Luther King Jr. Day", 1, MO(3)),
+                              ("Presidents' Day", 2, MO(3)),
+                              ("Memorial Day", 5, MO(-1)),
+                              ("Labor Day", 9, MO(1)),
+                              ("Thanksgiving", 11, TH(4))]
 
-def check_holiday_weekends(year_start, year_end):
+# Define non-standard fixed and floating date holidays
+nonstandard_fixed_holidays = [("New Year's Day", 1, 1),  # New Year's Day
+                              ("Independence Day", 7, 4),  # Independence Day
+                              ("Christmas Day", 12, 25)]  # Christmas Day
+
+nonstandard_floating_holidays = [("Memorial Day", 5, MO(-1)),
+                                 ("Labor Day", 9, MO(1)),
+                                 ("Thanksgiving", 11, TH(4)),
+                                 ("Day After Thanksgiving", 11, FR(4))]
+
+def check_holiday_weekends(year_start, year_end, nonstandard):
     holiday_data = {}
+
+    fixed_holidays = nonstandard_fixed_holidays if nonstandard else standard_fixed_holidays
+    floating_holidays = nonstandard_floating_holidays if nonstandard else standard_floating_holidays
 
     for year in range(year_start, year_end+1):
         holiday_data[year] = []
@@ -43,4 +56,9 @@ def check_holiday_weekends(year_start, year_end):
         for holiday_info in data:
             print(f"    {holiday_info[0]} on {holiday_info[1]}: {holiday_info[2]}")
 
-check_holiday_weekends(2023, 2025)
+# Add command line arguments
+parser = argparse.ArgumentParser()
+parser.add_argument('--nonstandard', action='store_true', help='Calculate for non-standard holidays')
+args = parser.parse_args()
+
+check_holiday_weekends(2023, 2025, args.nonstandard)

@@ -1,19 +1,48 @@
-# Long Weekend Planner
+# Holiday Long Weekend Calculator
 
-This Python script helps you plan for long weekends. It checks for the major U.S. holidays and indicates which ones will fall on a Monday or Friday (giving you a three-day weekend) or on a Tuesday or Thursday (where you can optionally take an extra day off for a four-day weekend).
+This script calculates the potential long weekends given the standard or non-standard holidays in a year.
 
-## Setup and Usage
+## Usage
 
-To use this script, you need to have Python installed. If you don't have Python installed, you can download it from [here](https://www.python.org/downloads/).
+Run the script in the terminal as follows:
 
-Once you have Python installed:
+```
+python3 holiday.py [--nonstandard]
+```
 
-1. Clone this repository or download the `holiday.py` script to your local machine.
-2. Navigate to the directory containing the `holiday.py` script in your terminal.
-3. Install the required Python packages by typing `pip install -r requirements.txt` in the terminal.
-4. Run the script by typing `python3 holiday.py` in the terminal.
+## Arguments
 
-The script will print out the list of holidays from 2023 to 2033, indicating which ones will give you a long weekend.
+- `--nonstandard`: Calculate for non-standard holidays. By default, calculations are based on the standard holidays.
+
+## Dependencies
+
+To install dependencies, use the following command:
+
+```
+pip install -r requirements.txt
+```
+
+## Standard Holidays
+
+- New Year's Day (January 1)
+- Martin Luther King Jr. Day (Third Monday in January)
+- Presidents' Day (Third Monday in February)
+- Memorial Day (Last Monday in May)
+- Independence Day (July 4)
+- Labor Day (First Monday in September)
+- Veterans Day (November 11)
+- Thanksgiving (Fourth Thursday in November)
+- Christmas Day (December 25)
+
+## Non-standard Holidays
+
+- New Year's Day (January 1)
+- Memorial Day (Last Monday in May)
+- Independence Day (July 4)
+- Labor Day (First Monday in September)
+- Thanksgiving (Fourth Thursday in November)
+- Day After Thanksgiving (Fourth Friday in November)
+- Christmas Day (December 25)
 
 ## Customizing the Script
 
